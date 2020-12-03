@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=fish -c "mkfifo /tmp/xobbrightness; tail -f /tmp/xobbrightness | xob"
+Name=xob
+Type=Application

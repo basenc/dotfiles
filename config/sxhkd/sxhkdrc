@@ -1,0 +1,30 @@
+XF86AudioRaiseVolume
+	pamixer -i 5; \
+	canberra-gtk-play -i audio-volume-change; \
+	pamixer --get-volume >> /tmp/xobvolume
+XF86AudioLowerVolume
+	pamixer -d 5; \
+	canberra-gtk-play -i audio-volume-change; \
+	pamixer --get-volume >> /tmp/xobvolume
+XF86AudioMute
+	pamixer -t
+XF86MonBrightnessUp
+	xbacklight -inc 10 -fps 60;\
+	xbacklight -get >> /tmp/xobbrightness
+XF86MonBrightnessDown
+	xbacklight -dec 10 -fps 60; \
+	xbacklight -get >> /tmp/xobbrightness
+super + x
+	rofi -show drun
+super + Return
+	i3-sensible-terminal
+super + l
+	lockscreen
+Print
+	import /tmp/scr.png && xclip -selection clipboard -t image/png /tmp/scr.png
+shift + Print
+	import -window root /tmp/scr.png && xclip -selection clipboard -t image/png /tmp/scr.png
+ctrl + Print
+	import -window (xdotool getactivewindow) /tmp/scr.png && xclip -selection clipboard -t image/png /tmp/scr.png
+super + k
+	xkill

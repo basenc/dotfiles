@@ -1,0 +1,99 @@
+#!/usr/bin/env fish
+
+function godark;
+    if [ $ISDARK -eq 1 ];
+        echo "Already in dark mode!"
+        exit 1
+    end
+
+    echo "Look at me I’m a beautiful butterfly"
+    echo "Fluttering in the moonlight🌝"
+    echo
+    echo 1 > $DOTFILES/dark_mode/isdark
+
+    rm -rf /tmp/dorfiles
+
+    cd $DOTFILES/dark_mode/patches
+    patch $DOTFILES/config/alacritty/alacritty.yml < alacritty
+    patch $DOTFILES/config/i3/config < i3
+    patch $DOTFILES/X/dot-xresources < xres
+    patch $DOTFILES/config/polybar/config < polybar
+    patch $DOTFILES/config/rofi/config.rasi < rofi
+    cd -
+
+    nohup startpolybar &> /dev/null &
+
+    gsettings set org.gnome.desktop.interface gtk-theme $gtk_dark_theme
+
+    changewallpaper
+
+    i3 restart
+    exit 0
+end
+
+function golight
+    if [ $ISDARK -eq 0 ];
+        echo "Already in light mode!"
+        exit 1
+    end
+
+    echo "Look at me I’m a beautiful butterfly"
+    echo "Fluttering in the sunlight🌞"
+    echo
+    echo 0 > $DOTFILES/dark_mode/isdark
+
+    cd $DOTFILES/dark_mode/patches
+    patch -R $DOTFILES/config/alacritty/alacritty.yml < alacritty
+    patch -R $DOTFILES/config/i3/config < i3
+    patch -R $DOTFILES/X/dot-xresources < xres
+    patch -R  $DOTFILES/config/polybar/config < polybar
+    patch -R  $DOTFILES/config/rofi/config.rasi < rofi
+    cd -
+
+    nohup startpolybar &> /dev/null &
+
+    gsettings set org.gnome.desktop.interface gtk-theme $gtk_light_theme
+
+    changewallpaper
+
+    i3 restart
+    exit 0
+end
+
+function _switch
+    if [ $ISDARK -eq 0 ];
+        godark
+    else
+        golight
+    end
+end
+
+function _help
+echo "Switch light and dark GUI appearance
+
+Usage: darkmode [-h|--help] [-l|--light] [-d|--dark] [-s|--switch]
+
+Options:
+-h, --help  Display this help message and exit.
+-l, --light  Enable light mode
+-d, --dark  Enable dark mode
+-s, --switch  Switch modes
+"
+exit 0
+end
+
+set gtk_dark_theme "Adwaita-dark"
+set gtk_light_theme "Adwaita"
+
+if not test -e $DOTFILES/dark_mode/isdark;
+    exit 1
+end
+
+read -g ISDARK < $DOTFILES/dark_mode/isdark
+
+argparse --name=darkmode -x 'h,d,l,s' 'h/help' 'd/dark' 'l/light' 's/switch' -- $argv
+if set --query _flag_help; _help; exit 1; end
+if set --query _flag_dark; godark; end
+if set --query _flag_light; golight; end
+if set --query _flag_switch; _switch; end
+_help

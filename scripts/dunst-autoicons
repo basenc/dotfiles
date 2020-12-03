@@ -1,0 +1,25 @@
+#!/usr/bin/env fish
+
+set theme (string trim -c "'" (gsettings get org.gnome.desktop.interface icon-theme))
+
+if [ -d ~/.icons/$theme ];
+  set path ~/.icons/$theme
+else if [ -d ~/.local/share/icons/$theme ];
+  set path ~/.local/share/icons/$theme
+else if [ -d /usr/share/icons/$theme ];
+  set path /usr/share/icons/$theme
+end
+
+for size in (find $path -mindepth 1 -maxdepth 1 | sort -r -V)
+  if [ ! (string match -r 'icon-theme.cache|index.theme|cursors' $size) ]
+    for icons in $size/*
+      set out "$out$icons:"
+    end
+  end
+end
+
+echo $out
+
+string replace -r '.*icon_path.*' '\ticon_path = '$out (cat ~/.config/dunst/dunstrc) > /tmp/dunstrc
+
+dunst -config /tmp/dunstrc

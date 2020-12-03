@@ -1,0 +1,4 @@
+[module/date]
+type = internal/date
+date = %a  %H:%M
+label = %{A1:$DOTFILES/scripts/polybar/clickmenu/calendar:}%date% %time%%{A}

@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+connections=$($DOTFILES/scripts/polybar/print_network.py)
+
+yad \
+--mouse \
+--posy=32 \
+--sticky \
+--fixed \
+--on-top \
+--undecorated \
+--splash \
+--close-on-unfocus \
+--skip-taskbar \
+--selectable-labels \
+--no-buttons \
+--form \
+--text="$connections" \
+--field :LBL \
+--field='Connect to a new network':FBTN \
+--field='Open connection editor':FBTN '' 'i3-sensible-terminal -e nmtui-connect' 'nm-connection-editor'

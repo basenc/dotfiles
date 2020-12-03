@@ -1,0 +1,40 @@
+#!/usr/bin/env fish
+
+if not test -e $DOTFILES/dark_mode/isdark;
+    exit 1
+end
+read -g ISDARK < $DOTFILES/dark_mode/isdark
+
+if [ -z $argv ]
+  echo "Wallpaper not provided, picking a random one..."
+
+  set link "https://bing.com"(curl -s 'https://bing.com/HPImageArchive.aspx?format=xml&idx=1&n=1&mkt=en-US' \
+  | grep -oP '<urlBase>(.*)</urlBase>' \
+  | cut -d '>' -f 2 \
+  | cut -d '<' -f 1)"_1920x1080.jpg&pid=hp"
+  mkdir -p (xdg-user-dir PICTURES)/wallpapers/daily &> /dev/null
+  echo $link
+  curl -s -o (xdg-user-dir PICTURES)/wallpapers/daily/(date +%m%d%y).jpg $link
+
+  set wp (xdg-user-dir PICTURES)/wallpapers/daily/(date +%m%d%y).jpg
+  set comment '''
+  if [ $ISDARK -eq 1 ]
+    set wp (find ~/Pictures/wallpapers/fullscreen/dark -type f -name "*.jpg" -o -name "*.png" | shuf -n1)
+  else
+    set wp (find ~/Pictures/wallpapers/fullscreen/light -type f -name "*.jpg" -o -name "*.png" | shuf -n1)
+  end
+  '''
+else
+  if [ -e $argv ]; and string match -r '.jpg|.png' -- $argv
+    set wp $argv
+  else
+    echo 'Not a .jpeg or .png file!'
+    exit 1
+  end
+end
+
+if [ (identify -format '%w' $wp) -le '512' ]
+	xwallpaper --tile $wp
+else
+	xwallpaper --zoom $wp
+end

@@ -1,0 +1,81 @@
+configuration {
+//    show-icons:   true;
+}
+
+//------------------------------------------------//
+
+* {
+	text-color:	 gray;
+	bg: #E0E0E0A6;
+	inputbar: #FFFFFF;
+	text: gray;
+	text-selected: gray;
+	radius: 12px;
+}
+
+//------------------------------------------------//
+
+window {
+	font: "SA Pro 12";
+	transparency: "real";
+	background-color: @bg;
+	location: east;
+	anchor: east;
+	fullscreen: false;
+	width: 480px;
+	x-offset: -25px;
+ 	y-offset: 0;
+ 	border-radius: @radius;
+}
+
+mainbox {
+	background-color: transparent;
+}
+
+listview {
+	margin: 0 5px 5px 5px;
+  columns: 1;
+  lines: 12;
+	background-color: transparent;
+}
+
+inputbar {
+	border-radius: @radius;
+	padding:  10px 0 10px 0;
+	margin: 5px 5px 5px 5px;
+	background-color: @inputbar;
+}
+
+entry {
+	padding:  0 1.5ch 0 1.5ch;
+	text-color: @text;
+	background-color: @inputbar;
+}
+
+element {
+  orientation: horizontal;
+  background-color: transparent;
+}
+
+element selected {
+	border-radius: @radius;
+	background-color: @inputbar;
+	text-color: @text-selected;
+}
+
+element-text {
+	padding: 1.3% 1% 1% 1%;
+}
+
+element-icon {
+	enabled: false;
+  size: 2ch;
+  padding: 1% 0% 1% 1%;
+}
+
+prompt {
+	enabled: false;
+}
+case-indicator {
+	enabled: false;
+}

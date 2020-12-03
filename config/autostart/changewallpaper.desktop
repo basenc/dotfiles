@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=fish -c "$DOTFILES/bin/changewallpaper"
+Name=changewallpaper
+Type=Application

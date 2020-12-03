@@ -1,0 +1,18 @@
+[submodule "src/ChromeOS-theme"]
+	path = src/ChromeOS-theme
+	url = https://github.com/vinceliuice/ChromeOS-theme.git
+[submodule "src/xcolor"]
+	path = src/xcolor
+	url = https://github.com/Soft/xcolor.git
+[submodule "src/xwallpaper"]
+	path = src/xwallpaper
+	url = https://github.com/stoeckmann/xwallpaper.git
+[submodule "src/ChromeOS-kde"]
+	path = src/ChromeOS-kde
+	url = https://github.com/vinceliuice/ChromeOS-kde.git
+[submodule "src/Tela-icon-theme"]
+	path = src/Tela-icon-theme
+	url = https://github.com/vinceliuice/Tela-icon-theme
+[submodule "src/xob"]
+	path = src/xob
+	url = https://github.com/florentc/xob

@@ -1,0 +1,28 @@
+[module/wireguard]
+type = custom/script
+exec-if = ip link | grep -e POINTOPOINT
+exec = echo %{A1:$DOTFILES/scripts/polybar/clickmenu/network:}􀙧%{A}
+interval = 1
+
+[module/bluetooth]
+type = custom/script
+exec = $DOTFILES/scripts/polybar/bluetooth.py
+format = %{A1:$DOTFILES/scripts/polybar/clickmenu/bluetooth:}<label>%{A}
+interval = 1
+
+[module/wired-network]
+type = internal/network
+interface = eno1
+label-connected = %{A1:$DOTFILES/scripts/polybar/clickmenu/network:}􀜡%{A}
+
+[module/wireless-network]
+type = internal/network
+interface = wlo1
+label-connected = %{A1:$DOTFILES/scripts/polybar/clickmenu/network:}􀙇%{A}
+label-disconnected = %{A1:$DOTFILES/scripts/polybar/clickmenu/network:}􀙈%{A}
+
+[module/airmode]
+type = custom/script
+exec-if = $DOTFILES/scripts/polybar/airmode
+exec = echo 􀑓
+interval = 1

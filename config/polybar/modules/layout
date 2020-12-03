@@ -1,0 +1,8 @@
+[module/layout]
+type = internal/xkeyboard
+blacklist-0 = num lock
+blacklist-1 = scroll lock
+blacklist-2 = caps lock
+label-layout = %icon%
+layout-icon-0 = ru;RU
+layout-icon-1 = us;US

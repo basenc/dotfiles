@@ -1,0 +1,34 @@
+#!/usr/bin/env fish
+set _status (acpi | awk '{print $3 " " $5 " " $6 " " $7}')
+set _source (acpi -a | awk '{print $3}')
+
+echo $_status
+
+if string match -r 'Full' $_status
+  set _status 'Full'
+end
+
+switch  $_source
+  case off-line
+    set _source_line "Power Source: Battery"
+  case on-line
+    set _source_line "Power Source: Power Adapter"
+  case '*'
+    set _source_line "Unknown error"
+end
+
+yad \
+--mouse \
+--posy=32 \
+--sticky \
+--fixed \
+--on-top \
+--undecorated \
+--splash \
+--close-on-unfocus \
+--skip-taskbar \
+--no-buttons \
+--form \
+--text="$_status\n$_source_line" \
+--field :LBL \
+--field "Power saving settings:FBTN" "" "" "" "xfce4-power-manager-settings"

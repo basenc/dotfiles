@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=polybar -r top
+Name=startpolybar
+Type=Application

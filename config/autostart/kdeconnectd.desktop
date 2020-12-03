@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=/usr/lib/kdeconnectd
+Name=kdeconnectd
+Type=Application

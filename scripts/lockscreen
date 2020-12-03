@@ -1,0 +1,45 @@
+#!/usr/bin/env sh
+text_color="a4a4a475"
+ringhl_color="a4a4a470"
+ring_color="a4a4a450"
+
+import -window root -compress none -thumbnail 640x320 /tmp/scr.png
+ffmpeg -i /tmp/scr.png -vf boxblur=3:3,eq=brightness=-0.05 -s 1920x1080 -y /tmp/wall.png -hide_banner -loglevel warning
+
+i3lock -i /tmp/wall.png \
+--indicator --clock --redraw-thread \
+--insidevercolor=00000000 \
+--insidewrongcolor=00000000 \
+--insidecolor=00000000 \
+\
+--ringvercolor=$ringhl_color \
+--ringwrongcolor=$ring_color \
+--ringcolor=$ring_color \
+\
+--linecolor=00000000 \
+\
+--keyhlcolor=$ringhl_color \
+--bshlcolor=$ringhl_color \
+\
+--separatorcolor=00000000 \
+\
+--verifcolor=00000000 \
+--wrongcolor=00000000 \
+--layoutcolor=00000000 \
+\
+--indpos="w/2:h/2" \
+\
+--timestr="%H:%M" \
+--timepos="w/2:h/2" \
+--timecolor=$text_color \
+--time-font="SF-Pro-Rounded-Heavy" \
+--timesize=64 \
+--datecolor=$text_color \
+\
+--wrongtext="" \
+--veriftext="" \
+--noinputtext="" \
+--locktext="" \
+--lockfailedtext="" \
+--radius=128 \
+--ring-width=10 \

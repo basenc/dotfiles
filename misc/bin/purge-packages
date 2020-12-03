@@ -1,0 +1,57 @@
+#!/bin/env python
+import os
+import sys
+
+groups=os.popen("pacman -Qqg base-devel xorg-drivers xorg xorg-apps xorg-fonts").read().replace('\n',' ').split()
+
+orphans=os.popen('pacman -Qtdq').read().replace('\n',' ').split()
+if not orphans:
+  orphans=['']
+
+dotapps = open(os.environ["DOTFILES"] + "/installer","r")
+dotappslist = dotapps.read().replace('\t','').replace(' ','').split("\\\n")
+dotappslist = dotappslist[1:len(dotappslist) - 1]
+dotapps.close()
+
+exclude_list = [
+    "base", "linux", "linux-headers", "linux-lts", "linux-lts-headers", "linux-firmware", #linux kernel
+    "xf86-video-intel", "mesa", "lib32-mesa", #intel drivers
+    "nvidia-dkms", "nvidia", "nvidia-utils", "lib32-nvidia-utils", "nvidia-prime", #nvidia drivers
+    "vulkan-intel", "lib32-vulkan-intel", "vulkan-icd-loader", "lib32-vulkan-icd-loader", #vulkan
+    "pulseaudio", "pulseaudio-alsa", "lib32-libpulse", "python-pyalsa", #pulseaudio
+    "alsa-firmware", "alsa-utils", "alsa-tools", "lib32-alsa-plugins", #alsa
+    "bluez", "bluez-utils", "pulseaudio-bluetooth", #bluetooth
+    "intel-ucode", "efibootmgr", "btrfs-progs", "grub", "networkmanager", #boot
+    "dialog", "git", "xdg-user-dirs", "xorg-xinit", "fish", "yay", "timeshift"  #misc
+]
+
+exclude_list=list(dict.fromkeys(exclude_list+groups+dotappslist))
+installed_list=os.popen('pacman -Qeq').read().replace('\n',' ').split()
+
+dialog_list=""
+
+for package in installed_list:
+    if package in exclude_list:
+        continue
+    sedargs = ['"','s','/','\\','"','/','\\',"'",'/','g','"']
+    description = os.popen("env LC_ALL=c pacman -Qi " + package +  " | grep Description | sed -r -e " + ''.join(sedargs) + " -e 's/.+: //g'").read().replace('\n','')
+    dialog_list += package + ' "' +description + '" no '
+
+dialog_list += "orphans 'Orphaned packages' no"
+del_packages = os.popen("dialog --clear --checklist --stdout 'Choose packages to remove.' 0 0 0 " + dialog_list).read().replace('\n',' ').split()
+
+if del_packages:
+    if 'orphans' in del_packages:
+        if orphans:
+            del_packages.remove('orphans')
+            del_packages += orphans
+        else:
+            os.system("clear")
+            exit(0)
+    del_packages_str = ' '.join(del_packages)
+    if os.system("dialog --clear --yesno 'Theese packages will be deleted: " + del_packages_str + "\nProceed?' 10 50"):
+        exit(0)
+    os.system("clear")
+    print("Command line: " + "sudo pacman -Rsn " + del_packages_str)
+    os.system("sudo pacman -Rsn --noconfirm " + del_packages_str)
+exit(0)

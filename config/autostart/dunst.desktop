@@ -1,0 +1,5 @@
+[Desktop Entry]
+Exec=/usr/bin/env fish -c 'dunst-autoicons'
+Name=dunst
+Comment=A customizable and lightweight notification-daemon
+Type=Application

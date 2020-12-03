@@ -1,0 +1,12 @@
+[module/pasound]
+type = internal/pulseaudio
+use-ui-max = true
+interval = 5
+format-volume = %{A1:$DOTFILES/scripts/polybar/clickmenu/sound:}<ramp-volume>%{A}
+
+label-muted = 􀊣
+
+ramp-volume-0 = 􀊡
+ramp-volume-1 = 􀊥
+ramp-volume-2 = 􀊧
+ramp-volume-3 = 􀊩

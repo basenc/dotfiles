@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=picom --experimental-backends
+Name=picom
+Type=Application

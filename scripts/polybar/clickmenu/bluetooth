@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+connections=$($DOTFILES/scripts/polybar/print_bluetooth.py)
+
+yad \
+--mouse \
+--posy=32 \
+--sticky \
+--fixed \
+--on-top \
+--undecorated \
+--splash \
+--close-on-unfocus \
+--skip-taskbar \
+--selectable-labels \
+--no-buttons \
+--form \
+--text="$connections" \
+--field :LBL \
+--field='Bluetooth settings':FBTN '' 'blueman-manager'

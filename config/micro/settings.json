@@ -1,0 +1,16 @@
+{
+    "colorscheme": "simple",
+    "mkparents": true,
+    "pluginchannels": [
+        "https://raw.githubusercontent.com/micro-editor/plugin-channel/master/channel.json"
+    ],
+    "pluginrepos": [],
+    "rmtrailingws": true,
+    "savecursor": true,
+    "saveundo": true,
+    "scrollspeed": 1,
+    "softwrap": true,
+    "statusformatl": "$(filename) | ft:$(opt:filetype) ",
+    "tabsize": 2,
+    "xterm": true
+}

@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+import os
+import re
+
+wifi_icon = ''
+tunnel_icon = ''
+ethernet_icon = ''
+vpn_icon = ''
+no_icon = ''
+
+net_active = os.popen('nmcli -t -f NAME,TYPE connection show --active').read()
+net_active = re.findall('.+:.+',net_active)
+
+first = 1
+if net_active:
+	last = net_active[-1::][0].split(':')
+	for net_entry in net_active:
+		net_entry = net_entry.split(':')
+
+		if net_entry[1] == "vpn":
+			if not first: print("",end=" · ")
+			print(net_entry[0],vpn_icon,end='')
+#		elif net_entry[1] == "tun":
+#			if not first: print("",end=" · ")
+#			tun_name = net_entry[0]
+#			print(tun_name,tunnel_icon,end="")
+		elif re.match(".+wireless",net_entry[1]):
+			if not first: print("",end=" · ")
+			wifi_ssid = net_entry[0]
+			print(wifi_ssid,wifi_icon,end="")
+#			print(wifi_ssid,signal_icons[-2],end="")
+		elif re.match(".+ethernet",net_entry[1]):
+			if not first: print("",end=" · ")
+			print(ethernet_icon,end="")
+		first = 0
+else:
+	print(no_icon,end="")

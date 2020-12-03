@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+import os
+import sys
+
+charset = os.popen('fc-query --format=%{charset} '+ sys.argv[1]).read().split(' ')
+for i in charset:
+    if '-' in i:
+        i = i.split('-')
+        chars = (range(int(i[0],16),int(i[1],16) + 1))
+        for b in chars:
+            print(chr(b),end=' ')
+    else:
+        i = int(i,16)
+        print(chr(i),end=' ')
+    print('')

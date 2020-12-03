@@ -1,0 +1,73 @@
+#!/usr/bin/env fish
+
+if set -q DOTFILES
+	cd $DOTFILES
+else
+	echo DOTFILES variable is not set
+	exit 1
+end
+
+mkdir -p ~/.themes &> /dev/null
+mkdir -p ~/.config &> /dev/null
+mkdir -p ~/.local/share/icons &> /dev/null
+mkdir -p ~/.local/share/fonts &> /dev/null
+
+function match_name
+	string match -r '.+\/(.+)' $argv
+end
+
+function mklinks
+	for pkg in config/*
+		set pkgname (match_name $pkg)[2]
+		mkdir -v -p ~/.config/$pkgname
+		for file in $pkg/*
+			rm -rfv ~/.config/$pkgname/(match_name $file)[2]
+		end
+
+		if [ $pkg = 'config/config' ]
+			stow -v -d config -R $pkgname -t ~/.config/
+		else
+			stow -v -d config -R $pkgname -t ~/.config/$pkgname
+		end
+	end
+	stow -v -R themes -t ~/.themes/
+	stow -v -R icons -t ~/.local/share/icons/
+	stow -v -R fonts -t ~/.local/share/fonts/
+	stow -v -R --dotfiles X -t ~/
+end
+
+function rmlinks
+	for pkg in config/*
+		set pkgname (match_name $pkg)[2]
+		if [ $pkg = 'config/config' ]
+			for file in $pkg/*
+				rm -rfv ~/.config/(match_name $file)[2]
+			end
+		else
+			rm -rfv ~/.config/(match_name $pkg)[2]
+		end
+	end
+	stow -v -D themes -t ~/.themes/
+	stow -v -D icons -t ~/.local/share/icons/
+	stow -v -D fonts -t ~/.local/share/fonts/
+	stow -v -D X -t ~/
+end
+
+function _help
+echo \
+"Install dotfiles on your system
+
+Usage: linker [-h|--help] [-l|--link] [-u|--unlink]
+
+Options:
+-h, --help  Display this help message and exit.
+-l, --link  Install dotfiles (WARNING! Will overwrite existing configs!)
+-u, --unlink  Uninstall dotfiles"
+end
+
+
+argparse --name=linker -x 'l,u' 'h/help' 'l/link' 'u/unlink' -- $argv
+if set --query _flag_help; _help; exit 0; end
+if set --query _flag_link; mklinks; exit 0; end
+if set --query _flag_unlink; rmlinks; exit 0; end
+_help; exit 1

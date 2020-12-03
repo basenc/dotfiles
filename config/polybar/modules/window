@@ -1,0 +1,4 @@
+[module/xwindow]
+type = internal/xwindow
+label-maxlen = 64
+label-empty = 􀦧

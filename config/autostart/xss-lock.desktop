@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=fish -c "xss-lock $DOTFILES/bin/lockscreen"
+Name=xss-lock
+Type=Application

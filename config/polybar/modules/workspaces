@@ -1,0 +1,7 @@
+[module/workspaces-dots]
+type = custom/script
+format = <label>
+exec = $DOTFILES/scripts/polybar/workspaces
+interval = 0.05
+scroll-up = i3 workspace prev
+scroll-down = i3 workspace next

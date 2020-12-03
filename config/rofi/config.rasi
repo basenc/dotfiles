@@ -1,0 +1,78 @@
+configuration {
+    show-icons:   true;
+}
+
+//------------------------------------------------//
+
+* {
+	text-color:	 gray;
+	base: #2E2E2ED0;
+	alt: #323232;
+	text: gray;
+	text-selected: white;
+	border-width: 5px;
+	outer-radius: 15px;
+	// @outer-radius - @border-width
+	inner-radius: 10px;
+	font: "SF Pro Display 12";
+	// Dont touch
+	background-color: transparent;
+}
+
+//------------------------------------------------//
+
+window {
+	font: @font;
+	transparency: "real";
+	background-color: @base;
+	location: east;
+	anchor: east;
+	fullscreen: false;
+	width: 60mm;
+	x-offset: -25px;
+ 	y-offset: 0;
+ 	border-radius: @outer-radius;
+}
+
+listview {
+	margin: 0 5px 5px 5px;
+  columns: 1;
+  lines: 12;
+}
+
+inputbar {
+	border-radius: @inner-radius;
+	margin: 5px 5px 5px 5px;
+	background-color: @alt;
+}
+
+entry {
+	margin: 10px 1.5ch 10px 1.5ch;
+	text-color: @text;
+}
+
+element {
+  orientation: horizontal;
+  border-radius: @inner-radius;
+}
+
+element selected {
+	border-radius: @radius;
+	background-color: @alt;
+	text-color: @text-selected;
+}
+
+element-text {
+	padding:  10px 1.5ch 10px 0ch;
+	vertical-align: 0.5;
+}
+
+element-icon {
+  size: 2ch;
+  padding: 0 0 0 calc(5px + 1ch);
+  vertical-align: 0.5;
+}
+
+prompt {
+	enabled: false;
+}
