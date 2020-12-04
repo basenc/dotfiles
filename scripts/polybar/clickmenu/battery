@@ -28,7 +28,4 @@ yad \
 --close-on-unfocus \
 --skip-taskbar \
 --no-buttons \
---form \
 --text="$_status\n$_source_line" \
---field :LBL \
---field "Power saving settings:FBTN" "" "" "" "xfce4-power-manager-settings"

@@ -13,7 +13,4 @@ yad \
 --skip-taskbar \
 --selectable-labels \
 --no-buttons \
---form \
 --text="$connections" \
---field :LBL \
---field='Bluetooth settings':FBTN '' 'blueman-manager'

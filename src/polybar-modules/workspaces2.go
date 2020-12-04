@@ -27,18 +27,25 @@ func main() {
 		os.Exit(0)
 	}
 
-	desktopNamesStr := regexp.MustCompile("\\d+").FindAllString(regexp.MustCompile("_NET_DESKTOP_NAMES.+").FindString(xprop),-1)[1:]
+	desktopNamesStr := regexp.MustCompile("\\d+").
+											FindAllString(regexp.MustCompile("_NET_DESKTOP_NAMES.+").
+											FindString(xprop),-1)[1:]
+
 	desktopNames := []int{}
 	for i := range desktopNamesStr {
 			desktop, _ := strconv.Atoi(desktopNamesStr[i])
 			desktopNames = append(desktopNames, desktop)
 	}
 
-	currentDesktopStr := regexp.MustCompile("_NET_CURRENT_DESKTOP.+(\\d)").FindStringSubmatch(xprop)[1]
+	currentDesktopStr := regexp.MustCompile("_NET_CURRENT_DESKTOP.+(\\d)").
+												FindStringSubmatch(xprop)[1]
+
 	currentDesktop, _ := strconv.Atoi(currentDesktopStr)
 
 	for i := range desktopNames {
-		bar = append(bar,icons[desktopNames[i] - 1])
+		bar = append(bar,fmt.Sprintf("%%{A1:i3 workspace %d:}%s%%{A}",
+																	desktopNames[i],
+																	icons[desktopNames[i] - 1]))
 	}
 
 	bar[currentDesktop] = active_icons[desktopNames[currentDesktop] - 1]

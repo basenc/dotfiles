@@ -13,8 +13,4 @@ yad \
 --skip-taskbar \
 --selectable-labels \
 --no-buttons \
---form \
 --text="$connections" \
---field :LBL \
---field='Connect to a new network':FBTN \
---field='Open connection editor':FBTN '' 'i3-sensible-terminal -e nmtui-connect' 'nm-connection-editor'
