@@ -3,20 +3,27 @@
 import gi
 gi.require_version('Gtk', '3.0')
 
-import time
-import subprocess
-import argparse
-from Xlib.ext import randr
-from Xlib import display
 from gi.repository import Gtk, Gdk
+from Xlib import display
+from Xlib.ext import randr
+import argparse
+from subprocess import check_output
+from subprocess import Popen
+import time
 
 
 class MainWindow(Gtk.Window):
-  def __init__(self, posy, cmd, vol):
+  def __init__(self, posy):
     Gtk.Window.__init__(self)
     self.posy = posy
-    self.vol = vol
-    self.cmd = cmd
+    self.vol = int(check_output("pamixer --get-volume", shell=True))
+    try:
+      Popen("pamixer --get-mute", shell=True)
+    except subprocess.CalledProcessError:
+      self.muted = True
+    else:
+      self.muted = False
+
     self.set_resizable(False)
     self.set_decorated(False)
     self.set_border_width(10)
@@ -33,26 +40,26 @@ class MainWindow(Gtk.Window):
     vol.connect('value-changed', self.volume_changed)
     box.add(vol)
 
-    img = Gtk.Image.new_from_icon_name(
-      'audio-volume-high', Gtk.IconSize.DND)
-    box.add(img)
+    micbutton = Gtk.ToggleButton(
+      label='􀊣',
+      active=not self.muted
+    )
+    box.add(micbutton)
+    micbutton.connect('toggled', self.toggle_mute)
 
-    # micbutton = Gtk.Button()
-
-    self.flag_focused = 1
-    self.flag_allocated = 0
+    self.active = True
     self.connect('notify::is-active', self.is_focused)
+    self.allocated = False
     self.connect('size-allocate', self.is_allocated)
 
   def is_focused(self, *_):
-    if self.flag_focused:
-      self.flag_focused = 0
+    if self.active:
+      self.active = not self.active
       return
-
     Gtk.main_quit()
 
   def is_allocated(self, *_):
-    if self.flag_allocated:
+    if self.allocated:
       return
 
     scr_width = Gdk.Display.get_default().get_monitor(0).get_workarea().width
@@ -64,38 +71,29 @@ class MainWindow(Gtk.Window):
       xpos = xpos - win_width / 2 - 8
 
     self.move(xpos, self.posy)
-    self.flag_allocated = 1
+    self.allocated = not self.allocated
 
   def volume_changed(self, scale):
-    subprocess.Popen("{} {}; canberra-gtk-play -i audio-volume-change".format(
-      self.cmd, int(scale.get_value())), shell=True)
+    Popen("pamixer --set-volume {}; canberra-gtk-play -i audio-volume-change".format(
+      int(scale.get_value())), shell=True)
 
-  def mic_muted(self, button):
-    pass
+  def toggle_mute(self, button):
+    Popen("pamixer -t", shell=True)
+
 
 def mousepos():
   data = display.Display().screen().root.query_pointer()._data
   return data["root_x"], data["root_y"]
 
 
-parser = argparse.ArgumentParser(description='Simple popup window')
+parser = argparse.ArgumentParser(
+  description='Simple popup volume control. Requires pamixer to work.')
 parser.add_argument('-y', '--posy',
-          metavar='Y',
-          type=int,
-          required=1,
-          help='Popup window position')
-parser.add_argument('-c', '--cmd',
-          metavar='command',
-          type=str,
-          required=1,
-          help='Shell command to change volume')
-parser.add_argument('-v', '--vol',
-          metavar='volume',
-          type=int,
-          required=1,
-          help='Current volume level')
+  type=int,
+  required=True,
+  help='vertical window placement')
 args = parser.parse_args()
 
-win = MainWindow(posy=args.posy, vol=args.vol, cmd=args.cmd)
+win = MainWindow(posy=args.posy)
 win.show_all()
 Gtk.main()

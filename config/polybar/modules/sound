@@ -2,7 +2,7 @@
 type = internal/pulseaudio
 use-ui-max = true
 interval = 5
-format-volume = %{A1:$DOTFILES/scripts/polybar/clickmenu/sound -y 32 -v $(pamixer --get-volume) -c 'pamixer --set-volume':}<ramp-volume>%{A}
+format-volume = %{A1:$DOTFILES/scripts/polybar/clickmenu/sound -y 32:}<ramp-volume>%{A}
 
 label-muted = 􀊣
 
