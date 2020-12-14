@@ -32,8 +32,10 @@ fi
 
 export XDG_SESSION_TYPE=x11
 export GDK_BACKEND=x11
-export QT_STYLE_OVERRIDE=kvantum
+
+export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
 export XDG_CURRENT_DESKTOP=Gnome
 
 exec i3
