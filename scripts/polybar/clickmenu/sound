@@ -1,6 +1,101 @@
-#!/usr/bin/env fish
-set date (date +%s)
-nohup pavucontrol --class=makeitfloating > /dev/null &
-while [ (date +%s) -le (math $date + 1) ];
-	wmctrl -x -r 'makeitfloating' -e 1,920,32,1000,640;
-end
+#!/usr/bin/env python
+
+import gi
+gi.require_version('Gtk', '3.0')
+
+import time
+import subprocess
+import argparse
+from Xlib.ext import randr
+from Xlib import display
+from gi.repository import Gtk, Gdk
+
+
+class MainWindow(Gtk.Window):
+  def __init__(self, posy, cmd, vol):
+    Gtk.Window.__init__(self)
+    self.posy = posy
+    self.vol = vol
+    self.cmd = cmd
+    self.set_resizable(False)
+    self.set_decorated(False)
+    self.set_border_width(10)
+    self.type = Gtk.WindowType.POPUP
+    self.set_type_hint(Gdk.WindowTypeHint.SPLASHSCREEN)
+
+    box = Gtk.VBox()
+    self.add(box)
+
+    vol_adj = Gtk.Adjustment(
+      value=self.vol, lower=0, upper=100, step_increment=5)
+    vol = Gtk.VScale(adjustment=vol_adj, inverted=True, digits=0)
+    vol.set_size_request(-1, 320)
+    vol.connect('value-changed', self.volume_changed)
+    box.add(vol)
+
+    img = Gtk.Image.new_from_icon_name(
+      'audio-volume-high', Gtk.IconSize.DND)
+    box.add(img)
+
+    # micbutton = Gtk.Button()
+
+    self.flag_focused = 1
+    self.flag_allocated = 0
+    self.connect('notify::is-active', self.is_focused)
+    self.connect('size-allocate', self.is_allocated)
+
+  def is_focused(self, *_):
+    if self.flag_focused:
+      self.flag_focused = 0
+      return
+
+    Gtk.main_quit()
+
+  def is_allocated(self, *_):
+    if self.flag_allocated:
+      return
+
+    scr_width = Gdk.Display.get_default().get_monitor(0).get_workarea().width
+    win_width = self.get_allocated_size()[0].width
+    xpos = mousepos()[0]
+    if (xpos + win_width) > scr_width:
+      xpos = xpos - ((xpos + win_width) % scr_width) - 2
+    else:
+      xpos = xpos - win_width / 2 - 8
+
+    self.move(xpos, self.posy)
+    self.flag_allocated = 1
+
+  def volume_changed(self, scale):
+    subprocess.Popen("{} {}; canberra-gtk-play -i audio-volume-change".format(
+      self.cmd, int(scale.get_value())), shell=True)
+
+  def mic_muted(self, button):
+    pass
+
+def mousepos():
+  data = display.Display().screen().root.query_pointer()._data
+  return data["root_x"], data["root_y"]
+
+
+parser = argparse.ArgumentParser(description='Simple popup window')
+parser.add_argument('-y', '--posy',
+          metavar='Y',
+          type=int,
+          required=1,
+          help='Popup window position')
+parser.add_argument('-c', '--cmd',
+          metavar='command',
+          type=str,
+          required=1,
+          help='Shell command to change volume')
+parser.add_argument('-v', '--vol',
+          metavar='volume',
+          type=int,
+          required=1,
+          help='Current volume level')
+args = parser.parse_args()
+
+win = MainWindow(posy=args.posy, vol=args.vol, cmd=args.cmd)
+win.show_all()
+Gtk.main()
