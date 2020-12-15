@@ -1,45 +1,61 @@
-#!/usr/bin/env sh
-text_color="a4a4a475"
-ringhl_color="a4a4a470"
-ring_color="a4a4a450"
+#!/usr/bin/env fish
 
-import -window root -compress none -thumbnail 640x320 /tmp/scr.png
-ffmpeg -i /tmp/scr.png -vf boxblur=3:3,eq=brightness=-0.05 -s 1920x1080 -y /tmp/wall.png -hide_banner -loglevel warning
+set wp (jq -r '.wallpaper' $DOTFILES/config.json)
+set size (identify -format "%[fx:w]\n%[fx:h]" $wp)
 
-i3lock -i /tmp/wall.png \
---indicator --clock --redraw-thread \
+set brightness (convert $wp \
+	-crop 12%x5%+0+0 \
+	-scale 1x1 \
+	-colorspace Gray \
+	-format '%[fx:b]' info:-)
+
+if [ $brightness -ge 0.59 ]
+  set ringhl_color (jq -r '.colors.light.base' $DOTFILES/config.json | tr -d "#")
+  set ring_color (jq -r '.colors.light.alt' $DOTFILES/config.json | tr -d "#")
+  set text_color (jq -r '.colors.light.alt' $DOTFILES/config.json | tr -d "#")
+else
+  set ringhl_color (jq -r '.colors.dark.base' $DOTFILES/config.json | tr -d "#")
+  set ring_color (jq -r '.colors.dark.alt' $DOTFILES/config.json | tr -d "#")
+  set text_color (jq -r '.colors.dark.alt' $DOTFILES/config.json | tr -d "#")
+end
+
+# import -window root -compress none -thumbnail 640x320 /tmp/scr.png
+# ffmpeg -i /tmp/scr.png \
+  # -vf boxblur=3:3,eq=brightness=-0.05 \
+  # -s 1920x1080 \
+  # -y /tmp/wall.png \
+  # -hide_banner -loglevel warning
+
+echo $brightness
+i3lock -i $wp \
+--indicator --force-clock --redraw-thread --time-align 1 \
+--bshlcolor=$ringhl_color \
+--insidecolor=00000000 \
 --insidevercolor=00000000 \
 --insidewrongcolor=00000000 \
---insidecolor=00000000 \
-\
---ringvercolor=$ringhl_color \
---ringwrongcolor=$ring_color \
---ringcolor=$ring_color \
-\
---linecolor=00000000 \
-\
 --keyhlcolor=$ringhl_color \
---bshlcolor=$ringhl_color \
-\
+--linecolor=00000000 \
+--ringcolor=$ring_color \
+--ringvercolor=$ringhl_color \
+--ringwrongcolor=$ringhl_color \
 --separatorcolor=00000000 \
+--verifcolor=$ringhl_color \
+--wrongcolor=$ringhl_color \
 \
---verifcolor=00000000 \
---wrongcolor=00000000 \
---layoutcolor=00000000 \
+--timecolor=00000000 \
+--datecolor=00000000 \
 \
---indpos="w/2:h/2" \
+--indpos="15 + r:h - 15 - r" \
+--radius=32 \
+--ring-width=8 \
 \
 --timestr="%H:%M" \
---timepos="w/2:h/2" \
---timecolor=$text_color \
+--timepos="ix + 10 + r:iy + r / 2" \
 --time-font="SF-Pro-Rounded-Heavy" \
---timesize=64 \
---datecolor=$text_color \
+--timesize=32 \
 \
 --wrongtext="" \
 --veriftext="" \
 --noinputtext="" \
 --locktext="" \
 --lockfailedtext="" \
---radius=128 \
---ring-width=10 \
