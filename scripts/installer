@@ -3,27 +3,18 @@ source /etc/os-release
 
 if [[ $NAME == "Arch Linux" ]]; then
 	yay -S \
-		acpi \
 		acpilight \
 		alacritty \
-		blueman \
 		dex \
 		dunst \
 		fish \
-		gnome-settings-daemon \
-		gnome-themes-extra \
 		gnu-free-fonts \
 		i3-gaps \
-		i3lock-color \
+		i3lock-color-git \
 		imagemagick \
-		libxpm \
-		mate-polkit \
-		nm-connection-editor \
 		pavucontrol \
-		picom-ibhagwan-git \
+		picom-git \
 		polybar \
-		qt5-styleplugins \
-		qt5ct \
 		rofi-git \
 		stow \
 		sxhkd \
@@ -37,5 +28,6 @@ if [[ $NAME == "Arch Linux" ]]; then
 		xss-lock \
 		yad \
 		pamixer \
-		python-pybluez \
+		jq \
+		python-xlib \
 ;fi

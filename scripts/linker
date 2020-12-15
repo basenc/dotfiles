@@ -65,7 +65,6 @@ Options:
 -u, --unlink  Uninstall dotfiles"
 end
 
-
 argparse --name=linker -x 'l,u' 'h/help' 'l/link' 'u/unlink' -- $argv
 if set --query _flag_help; _help; exit 0; end
 if set --query _flag_link; mklinks; exit 0; end
