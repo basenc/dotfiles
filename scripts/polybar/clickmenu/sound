@@ -42,7 +42,7 @@ class MainWindow(Gtk.Window):
 
     micbutton = Gtk.ToggleButton(
       label='􀊣',
-      active=not self.muted
+      active=self.muted
     )
     box.add(micbutton)
     micbutton.connect('toggled', self.toggle_mute)
