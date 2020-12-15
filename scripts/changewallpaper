@@ -5,36 +5,43 @@ if not test -e $DOTFILES/dark_mode/isdark;
 end
 read -g ISDARK < $DOTFILES/dark_mode/isdark
 
-if [ -z $argv ]
-  echo "Wallpaper not provided, picking a random one..."
+function wallheaven
+  set link (curl -G -s \
+    (string join '' "https://wallhaven.cc/api/v1/search?" \
+      "q=+nature+landscape&" \
+      "categories=100&" \
+      "purity=100&" \
+      "resolutions=1920x1080&" \
+      "sorting=random") \
+    | jq -r '.data[0].path')
 
-  set link "https://bing.com"(curl -s 'https://bing.com/HPImageArchive.aspx?format=xml&idx=1&n=1&mkt=en-US' \
-  | grep -oP '<urlBase>(.*)</urlBase>' \
-  | cut -d '>' -f 2 \
-  | cut -d '<' -f 1)"_1920x1080.jpg&pid=hp"
-  mkdir -p (xdg-user-dir PICTURES)/wallpapers/daily &> /dev/null
-  echo $link
-  curl -s -o (xdg-user-dir PICTURES)/wallpapers/daily/(date +%m%d%y).jpg $link
+  set file (basename $link)
+  curl -s $link -o /tmp/$file
+  set -g wp /tmp/$file
 
-  set wp (xdg-user-dir PICTURES)/wallpapers/daily/(date +%m%d%y).jpg
-  set comment '''
-  if [ $ISDARK -eq 1 ]
-    set wp (find ~/Pictures/wallpapers/fullscreen/dark -type f -name "*.jpg" -o -name "*.png" | shuf -n1)
-  else
-    set wp (find ~/Pictures/wallpapers/fullscreen/light -type f -name "*.jpg" -o -name "*.png" | shuf -n1)
-  end
-  '''
-else
-  if [ -e $argv ]; and string match -r '.jpg|.png' -- $argv
-    set wp $argv
-  else
-    echo 'Not a .jpeg or .png file!'
-    exit 1
-  end
+  echo Found: $link
 end
 
+if [ -z $argv ]
+  echo "Wallpaper not provided, picking a random one..."
+  wallheaven
+else if [ -e $argv ]; and string match -r '.jpg|.png' -- $argv &> /dev/null
+  set wp $argv
+else
+  echo 'Not a .jpg or .png file!'
+  exit 1
+end
+
+
+set size (xdpyinfo | awk '/dimensions:/ { print $2; exit }')
 if [ (identify -format '%w' $wp) -le '512' ]
 	xwallpaper --tile $wp
 else
+  mogrify -resize $size $wp
 	xwallpaper --zoom $wp
 end
+
+echo Path: $wp
+
+jq --arg wp $wp '.wallpaper |= $wp' $DOTFILES/config.json | \
+xsel -s && xsel -s -o > $DOTFILES/config.json

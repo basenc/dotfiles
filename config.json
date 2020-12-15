@@ -1,0 +1,22 @@
+{
+  "colors": {
+    "dark": {
+      "base": "#323232",
+      "alt": "#535353",
+      "text": "#DFDFDF",
+      "text_alt": "#696969"
+    },
+    "light": {
+      "base": "#FFFFFF",
+      "alt": "#C8C8C8",
+      "text": "#444444",
+      "text_alt": "#4285f4"
+    },
+    "transparency": {
+      "hex": "D0",
+      "int": "208",
+      "float": "0.8125"
+    }
+  },
+  "wallpaper": "/tmp/wallhaven-zx26jw.jpg"
+}
