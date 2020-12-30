@@ -1,10 +1,5 @@
 #!/usr/bin/env fish
 
-if not test -e $DOTFILES/dark_mode/isdark;
-    exit 1
-end
-read -g ISDARK < $DOTFILES/dark_mode/isdark
-
 function wallheaven
   set link (curl -G -s \
     (string join '' "https://wallhaven.cc/api/v1/search?" \
@@ -16,32 +11,36 @@ function wallheaven
     | jq -r '.data[0].path')
 
   set file (basename $link)
-  curl -s $link -o /tmp/$file
-  set -g wp /tmp/$file
+  curl -s $link -o (xdg-user-dir PICTURES)/wallpapers/$file
+  set -g wp (xdg-user-dir PICTURES)/wallpapers/$file
 
-  echo Found: $link
+  echo $link
+  echo Saved as: $wp
 end
 
+mkdir -p (xdg-user-dir PICTURES)/wallpapers
+
 if [ -z $argv ]
-  echo "Wallpaper not provided, picking a random one..."
-  wallheaven
-else if [ -e $argv ]; and string match -r '.jpg|.png' -- $argv &> /dev/null
+  echo "Wallpaper not provided, downloading a random one..."
+  if ping -c 1 1.1.1.1 &> /dev/null
+    wallheaven
+  else if [ ! -z (xdg-user-dir PICTURES)/wallpapers ]
+    set wp (find (xdg-user-dir PICTURES)/wallpapers -type f | sort -R | head -n1)
+  end
+else if [ -e $argv ]; and string match -r '\.jpg|\.png' -- $argv &> /dev/null
   set wp $argv
 else
   echo 'Not a .jpg or .png file!'
   exit 1
 end
 
-
 set size (xdpyinfo | awk '/dimensions:/ { print $2; exit }')
 if [ (identify -format '%w' $wp) -le '512' ]
 	xwallpaper --tile $wp
 else
-  mogrify -resize $size $wp
-	xwallpaper --zoom $wp
+  convert -resize $size $wp /tmp/wallpaper
+	xwallpaper --zoom /tmp/wallpaper
 end
-
-echo Path: $wp
 
 jq --arg wp $wp '.wallpaper |= $wp' $DOTFILES/config.json | \
 xsel -s && xsel -s -o > $DOTFILES/config.json
