@@ -29,5 +29,7 @@ if [[ $NAME == "Arch Linux" ]]; then
 		yad \
 		pamixer \
 		jq \
+		yq \
+		xwallpaper \
 		python-xlib \
 ;fi

@@ -4,9 +4,6 @@
 [submodule "src/xcolor"]
 	path = src/xcolor
 	url = https://github.com/Soft/xcolor.git
-[submodule "src/xwallpaper"]
-	path = src/xwallpaper
-	url = https://github.com/stoeckmann/xwallpaper.git
 [submodule "src/ChromeOS-kde"]
 	path = src/ChromeOS-kde
 	url = https://github.com/vinceliuice/ChromeOS-kde.git
