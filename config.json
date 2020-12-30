@@ -1,22 +1,33 @@
 {
   "colors": {
     "dark": {
-      "base": "#323232",
-      "alt": "#535353",
-      "text": "#DFDFDF",
-      "text_alt": "#696969"
+      "base": "323232",
+      "alt": "535353",
+      "text": "DFDFDF",
+      "text_alt": "696969"
     },
     "light": {
-      "base": "#FFFFFF",
-      "alt": "#C8C8C8",
-      "text": "#444444",
-      "text_alt": "#4285f4"
+      "base": "FFFFFF",
+      "alt": "C8C8C8",
+      "text": "444444",
+      "text_alt": "4285f4"
     },
     "transparency": {
       "hex": "D0",
       "int": "208",
-      "float": "0.8125"
+      "float": "0.81"
     }
   },
-  "wallpaper": "/tmp/wallhaven-zx26jw.jpg"
+  "wallpaper": "/home/curly/media/pictures/wallpapers/wallhaven-4lv9kl.jpg",
+  "darkmode": "1",
+  "theme": {
+    "gtk": {
+      "dark": "ChromeOS-dark",
+      "light": "ChromeOS"
+    },
+    "kvantum": {
+      "dark": "ChromeOS-dark",
+      "light": "ChromeOS-light"
+    }
+  }
 }

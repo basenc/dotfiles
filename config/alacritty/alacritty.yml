@@ -3,59 +3,46 @@ colors:
     background: '0x323232'
     foreground: '0xDFDFDF'
   cursor:
-    text: '0x696969'
-    cursor: '0xDFDFDF'
-
-  # Normal colors
+    text: '0xDFDFDF'
+    cursor: '0x696969'
   normal:
-    black:   '0x151515'
-    red:     '0xff0086'
-    green:   '0x00c918'
-    yellow:  '0xaba800'
-    blue:    '0x3777e6'
+    black: '0x151515'
+    red: '0xff0086'
+    green: '0x00c918'
+    yellow: '0xaba800'
+    blue: '0x3777e6'
     magenta: '0xad00a1'
-    cyan:    '0x1faaaa'
-    white:   '0xd0d0d0'
-
-  # Bright colors
+    cyan: '0x1faaaa'
+    white: '0xd0d0d0'
   bright:
-    black:   '0x505050'
-    red:     '0xff0086'
-    green:   '0x00c918'
-    yellow:  '0xaba800'
-    blue:    '0x3777e6'
+    black: '0x505050'
+    red: '0xff0086'
+    green: '0x00c918'
+    yellow: '0xaba800'
+    blue: '0x3777e6'
     magenta: '0xad00a1'
-    cyan:    '0x1faaaa'
-    white:   '0xffffff'
-
+    cyan: '0x1faaaa'
+    white: '0xffffff'
   indexed_colors:
-    - { index: 16, color: '0xfd8900' }
-    - { index: 17, color: '0xcc6633' }
-    - { index: 18, color: '0x202020' }
-    - { index: 19, color: '0x303030' }
-    - { index: 20, color: '0xb0b0b0' }
-    - { index: 21, color: '0xe0e0e0' }
-
+    - {index: 16, color: '0xfd8900'}
+    - {index: 17, color: '0xcc6633'}
+    - {index: 18, color: '0x202020'}
+    - {index: 19, color: '0x303030'}
+    - {index: 20, color: '0xb0b0b0'}
+    - {index: 21, color: '0xe0e0e0'}
 background_opacity: 0.81
-
-#------------------------------------------------#
-
 env:
   TERM: xterm-256color
-
 window:
   padding:
     x: 10
     y: 10
   dynamic_padding: false
   dynamic_title: true
-
 font:
   normal:
     family: SF Mono
   size: 14
-
 cursor:
   unfocused_hollow: true
-
 live_config_reload: true

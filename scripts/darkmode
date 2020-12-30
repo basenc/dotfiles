@@ -1,99 +1,120 @@
 #!/usr/bin/env fish
 
-function godark;
-    if [ $ISDARK -eq 1 ];
-        echo "Already in dark mode!"
-        exit 1
-    end
-
-    echo "Look at me I’m a beautiful butterfly"
-    echo "Fluttering in the moonlight🌝"
-    echo
-    echo 1 > $DOTFILES/dark_mode/isdark
-
-    rm -rf /tmp/dorfiles
-
-    cd $DOTFILES/dark_mode/patches
-    patch $DOTFILES/config/alacritty/alacritty.yml < alacritty
-    patch $DOTFILES/config/i3/config < i3
-    patch $DOTFILES/X/dot-xresources < xres
-    patch $DOTFILES/config/polybar/config < polybar
-    patch $DOTFILES/config/rofi/config.rasi < rofi
-    cd -
-
-    nohup startpolybar &> /dev/null &
-
-    gsettings set org.gnome.desktop.interface gtk-theme $gtk_dark_theme
-
-    changewallpaper
-
-    i3 restart
-    exit 0
+if [ (jq -r '.darkmode' $DOTFILES/config.json) -eq 1 ]
+  set mode "light"
+  jq --arg mode 0 '.darkmode |= $mode' $DOTFILES/config.json | \
+  xsel -s && xsel -s -o > $DOTFILES/config.json
+else
+  set mode "dark"
+  jq --arg mode 1 '.darkmode |= $mode' $DOTFILES/config.json | \
+  xsel -s && xsel -s -o > $DOTFILES/config.json
 end
 
-function golight
-    if [ $ISDARK -eq 0 ];
-        echo "Already in light mode!"
-        exit 1
-    end
+set base (jq -r ".colors.$mode.base" $DOTFILES/config.json)
+set alt (jq -r ".colors.$mode.alt" $DOTFILES/config.json)
+set text (jq -r ".colors.$mode.text" $DOTFILES/config.json)
+set text_alt (jq -r ".colors.$mode.text_alt" $DOTFILES/config.json)
+set tr_hex (jq -r ".colors.transparency.hex" $DOTFILES/config.json)
+set tr_dec (jq -r ".colors.transparency.dec" $DOTFILES/config.json)
+set tr_float (jq -r ".colors.transparency.float" $DOTFILES/config.json)
 
-    echo "Look at me I’m a beautiful butterfly"
-    echo "Fluttering in the sunlight🌞"
-    echo
-    echo 0 > $DOTFILES/dark_mode/isdark
+echo $mode
 
-    cd $DOTFILES/dark_mode/patches
-    patch -R $DOTFILES/config/alacritty/alacritty.yml < alacritty
-    patch -R $DOTFILES/config/i3/config < i3
-    patch -R $DOTFILES/X/dot-xresources < xres
-    patch -R  $DOTFILES/config/polybar/config < polybar
-    patch -R  $DOTFILES/config/rofi/config.rasi < rofi
-    cd -
+# Alacritty
+yq -r \
+  --arg base (echo "0x"$base) \
+  --arg text (echo "0x"$text) \
+  --arg text_alt (echo "0x"$text_alt) \
+  '.colors.primary.background |= $base | .colors.primary.foreground |= $text | .colors.cursor.text |= $text | .colors.cursor.cursor |= $text_alt' \
+  $DOTFILES/config/alacritty/alacritty.yml -Y | \
+  xsel -s && xsel -s -o > $DOTFILES/config/alacritty/alacritty.yml
+  awk -v tr=$tr_float '{if ($1 == "background_opacity:") {$2 = tr} print}' $DOTFILES/config/alacritty/alacritty.yml | \
+  xsel -s && xsel -s -o > $DOTFILES/config/alacritty/alacritty.yml
 
-    nohup startpolybar &> /dev/null &
+# Polybar
+set script '
+{
+  sub("background = #.+", "background = #" tr_hex base)
+  sub("foreground = #.+", "foreground = #" tr_hex text)
+  print
+}
+'
+gawk \
+  -v base=$base \
+  -v text=$text \
+  -v tr_hex=$tr_hex \
+  $script $DOTFILES/config/polybar/config | \
+  xsel -s && xsel -s -o > $DOTFILES/config/polybar/config
 
-    gsettings set org.gnome.desktop.interface gtk-theme $gtk_light_theme
+# Dunst
+set script '
+{
+  tr = 100 - tr_float * 100
+  sub("background = .+", "background = \"#"base"\"")
+  sub("foreground = .+", "foreground = \"#"text"\"")
+  sub("frame_color = .+", "frame_color = \"#"alt"\"")
+  sub("transparency = .+", "transparency = "tr)
+  print
+}
+'
+gawk \
+  -v base=$base \
+  -v alt=$alt \
+  -v text=$text \
+  -v tr_float=$tr_float \
+  $script $DOTFILES/config/dunst/dunstrc | \
+  xsel -s && xsel -s -o > $DOTFILES/config/dunst/dunstrc
 
-    changewallpaper
+# i3
+set script '
+{
+  if($1 == "client.focused" || $1 == "client.focused_inactive") {
+    $2 = "#"base tr_hex; $3 = "#"base tr_hex; $5 = "#"base tr_hex;; $6 = "#"base tr_hex;
+    $4 = "#"text tr_hex;
+  } else if ($1 == "client.unfocused" || $1 == "client.placeholder" || $1 == "client.urgent") {
+    $2 = "#"alt tr_hex; $3 = "#"alt tr_hex; $5 = "#"alt tr_hex;; $6 = "#"alt tr_hex;
+    $4 = "#"text tr_hex;
+  }
+  print
+}
+'
+gawk \
+  -v base=$base \
+  -v alt=$alt \
+  -v text=$text \
+  -v tr_hex=$tr_hex \
+  $script $DOTFILES/config/i3/config | \
+  xsel -s && xsel -s -o > $DOTFILES/config/i3/config
 
-    i3 restart
-    exit 0
-end
+# Rofi
+set script '
+{
+  sub("base: .+;","base: #"base tr_hex";")
+  sub("alt: .+;","alt: #"alt";")
+  sub("text: .+;","text: #"text";")
+  sub("text-selected: .+;","text-selected: #"text";")
+  print
+}
+'
+gawk \
+  -v base=$base \
+  -v alt=$alt \
+  -v text=$text \
+  -v tr_hex=$tr_hex \
+  $script $DOTFILES/config/rofi/config.rasi | \
+  xsel -s && xsel -s -o > $DOTFILES/config/rofi/config.rasi
 
-function _switch
-    if [ $ISDARK -eq 0 ];
-        godark
-    else
-        golight
-    end
-end
+# GTK
+gsettings set org.gnome.desktop.interface gtk-theme (jq ".theme.gtk.$mode" $DOTFILES/config.json)
 
-function _help
-echo "Switch light and dark GUI appearance
+# QT
+set kvtheme (jq ".theme.kvantum.$mode" $DOTFILES/config.json)
+sh -c "kvantummanager --set $kvtheme"
 
-Usage: darkmode [-h|--help] [-l|--light] [-d|--dark] [-s|--switch]
-
-Options:
--h, --help  Display this help message and exit.
--l, --light  Enable light mode
--d, --dark  Enable dark mode
--s, --switch  Switch modes
-"
-exit 0
-end
-
-set gtk_dark_theme "Adwaita-dark"
-set gtk_light_theme "Adwaita"
-
-if not test -e $DOTFILES/dark_mode/isdark;
-    exit 1
-end
-
-read -g ISDARK < $DOTFILES/dark_mode/isdark
-
-argparse --name=darkmode -x 'h,d,l,s' 'h/help' 'd/dark' 'l/light' 's/switch' -- $argv
-if set --query _flag_help; _help; exit 1; end
-if set --query _flag_dark; godark; end
-if set --query _flag_light; golight; end
-if set --query _flag_switch; _switch; end
-_help
+### Reload configs ###
+pkill dunst
+nohup $DOTFILES/scripts/dunst-autoicons &> /dev/null &
+i3 restart
+pkill polybar
+nohup polybar -r top &> /dev/null &
+nohup picom --experimental-backends &> /dev/null &

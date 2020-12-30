@@ -6,10 +6,10 @@ configuration {
 
 * {
 	text-color:	 gray;
-	base: #2E2E2ED0;
-	alt: #323232;
-	text: gray;
-	text-selected: white;
+	base: #323232D0;
+	alt: #535353;
+	text: #DFDFDF;
+	text-selected: #DFDFDF;
 	border-width: 5px;
 	outer-radius: 15px;
 	// @outer-radius - @border-width
