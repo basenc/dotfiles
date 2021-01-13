@@ -6,8 +6,8 @@ configuration {
 
 * {
 	text-color:	 gray;
-	base: #323232D0;
-	alt: #535353;
+	base: #242424D0;
+	alt: #343434;
 	text: #DFDFDF;
 	text-selected: #DFDFDF;
 	border-width: 5px;
@@ -32,17 +32,17 @@ window {
 	x-offset: -25px;
  	y-offset: 0;
  	border-radius: @outer-radius;
+ 	padding: 5px 5px 5px 5px;
 }
 
 listview {
-	margin: 0 5px 5px 5px;
   columns: 1;
   lines: 12;
 }
 
 inputbar {
 	border-radius: @inner-radius;
-	margin: 5px 5px 5px 5px;
+	margin: 0 0 5px 0;
 	background-color: @alt;
 }
 
@@ -75,4 +75,8 @@ element-icon {
 
 prompt {
 	enabled: false;
+}
+
+textbox {
+	margin: 5px 5px 5px 5px;
 }

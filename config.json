@@ -1,16 +1,16 @@
 {
   "colors": {
     "dark": {
-      "base": "323232",
-      "alt": "535353",
+      "base": "242424",
+      "alt": "343434",
       "text": "DFDFDF",
-      "text_alt": "696969"
+      "text_alt": "818181"
     },
     "light": {
       "base": "FFFFFF",
       "alt": "C8C8C8",
       "text": "444444",
-      "text_alt": "4285f4"
+      "text_alt": "8B8B8B"
     },
     "transparency": {
       "hex": "D0",
@@ -22,12 +22,12 @@
   "darkmode": "1",
   "theme": {
     "gtk": {
-      "dark": "ChromeOS-dark",
-      "light": "ChromeOS"
+      "dark": "Materia-dark",
+      "light": "Materia-light"
     },
     "kvantum": {
-      "dark": "ChromeOS-dark",
-      "light": "ChromeOS-light"
+      "dark": "MateriaDark",
+      "light": "MateriaLight"
     }
   }
 }

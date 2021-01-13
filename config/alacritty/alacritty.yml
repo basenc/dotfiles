@@ -1,10 +1,10 @@
 colors:
   primary:
-    background: '0x323232'
+    background: '0x242424'
     foreground: '0xDFDFDF'
   cursor:
     text: '0xDFDFDF'
-    cursor: '0x696969'
+    cursor: '0x818181'
   normal:
     black: '0x151515'
     red: '0xff0086'

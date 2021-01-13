@@ -32,4 +32,7 @@ if [[ $NAME == "Arch Linux" ]]; then
 		yq \
 		xwallpaper \
 		python-xlib \
+		materia-gtk-theme \
+		kvantum-theme-materia \
+		papirus-icon-theme \
 ;fi
