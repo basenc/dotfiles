@@ -18,8 +18,6 @@
       "float": "0.81"
     }
   },
-  "wallpaper": "/home/curly/media/pictures/wallpapers/wallhaven-4lv9kl.jpg",
-  "darkmode": "1",
   "theme": {
     "gtk": {
       "dark": "Materia-dark",
@@ -29,5 +27,16 @@
       "dark": "MateriaDark",
       "light": "MateriaLight"
     }
+  },
+  "icons": {
+    "dark": "Papirus-Dark",
+    "light": "Papirus-Light"
+  },
+  "wallpaper": "/home/curly/media/pictures/wallpapers/wallhaven-j5qryy.jpg",
+  "mode": "dark",
+  "font": {
+    "sans": "",
+    "serif": "",
+    "mono": ""
   }
 }
