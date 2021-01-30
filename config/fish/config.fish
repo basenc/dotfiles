@@ -1,4 +1,4 @@
-set -a fish_user_paths $DOTFILES/misc/bin $DOTFILES/bin
+set -a fish_user_paths $DOTFILES/misc/bin $DOTFILES/bin $HOME/.local/bin
 
 export fish_greeting=
 export TERM=xterm-256color
@@ -16,3 +16,5 @@ alias 'xdg-user-dirs-update'='env LC_ALL=c xdg-user-dirs-update --force'
 alias "colortest"="fish -c 'msgcat --color=test'"
 alias 'pacman'='yay'
 export DOTFILES=/home/$USER/.local/share/dotfiles
+
+alias "dotconf"="jq '.' $DOTFILES/config.json"

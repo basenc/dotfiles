@@ -76,10 +76,10 @@ echo Setting i3...
 set script '
 {
   if($1 == "client.focused" || $1 == "client.focused_inactive") {
-    $2 = "#"base tr_hex; $3 = "#"base tr_hex; $5 = "#"base tr_hex;; $6 = "#"base tr_hex;
+    $2 = "#"alt tr_hex; $3 = "#"alt tr_hex; $5 = "#"base tr_hex;; $6 = "#"base tr_hex;
     $4 = "#"text tr_hex;
   } else if ($1 == "client.unfocused" || $1 == "client.placeholder" || $1 == "client.urgent") {
-    $2 = "#"alt tr_hex; $3 = "#"alt tr_hex; $5 = "#"alt tr_hex;; $6 = "#"alt tr_hex;
+    $2 = "#"base tr_hex; $3 = "#"base tr_hex; $5 = "#"alt tr_hex;; $6 = "#"alt tr_hex;
     $4 = "#"text tr_hex;
   }
   print

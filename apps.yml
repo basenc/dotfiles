@@ -1,0 +1,18 @@
+arch:
+  base:
+    i3-gaps: [
+      # DE
+        picom-git, i3-gaps, polybar, rofi-git, i3lock-color-git, dunst,
+      # Apps
+        alacritty,
+      # Fonts
+        gnu-free-fonts,
+      # Terminal
+        acpilight, fish, dex, imagemagick, yq, jq, stow, sxhkd,
+        wmctrl, xclip, python-xlib, xwallpaper, pamixer, xdg-user-dirs,
+        xdotool, xorg-xkill, xsel, xss-lock, yad,
+    ]
+  optional: [
+    pavucontrol, ttf-joypixels, materia-gtk-theme, kvantum-theme-materia, papirus-icon-theme
+  ]
+mode: i3-gaps

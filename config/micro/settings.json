@@ -1,6 +1,7 @@
 {
     "colorscheme": "simple",
     "mkparents": true,
+    "permbackup": true,
     "pluginchannels": [
         "https://raw.githubusercontent.com/micro-editor/plugin-channel/master/channel.json"
     ],
@@ -11,6 +12,9 @@
     "scrollspeed": 1,
     "softwrap": true,
     "statusformatl": "$(filename) | ft:$(opt:filetype) ",
+    "statusformatr": "$(line):$(col)",
+    "tabmovement": true,
     "tabsize": 2,
+    "tabstospaces": true,
     "xterm": true
 }

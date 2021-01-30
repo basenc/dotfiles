@@ -11,4 +11,6 @@ gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
 printf '*dpi: 121' | xrdb -merge
 xrandr --dpi 121
 
+xmodmap -e "keycode 118 ="
+
 dex -a
