@@ -1,8 +1,8 @@
-set -a fish_user_paths $DOTFILES/misc/bin $DOTFILES/bin $HOME/.local/bin
+set -a fish_user_paths $DOTFILES/misc/bin $DOTFILES/bin $HOME/.local/bin $HOME/.cargo/bin
 
 export fish_greeting=
-export TERM=xterm-256color
-export EDITOR=micro
+export TERM=__[term]__
+export EDITOR=__[editor]__
 
 alias "cp"='cp -rv'
 alias "mv"='mv -v'
@@ -15,6 +15,5 @@ alias "untar"="tar -xvf"
 alias 'xdg-user-dirs-update'='env LC_ALL=c xdg-user-dirs-update --force'
 alias "colortest"="fish -c 'msgcat --color=test'"
 alias 'pacman'='yay'
-export DOTFILES=/home/$USER/.local/share/dotfiles
 
-alias "dotconf"="jq '.' $DOTFILES/config.json"
+export DOTFILES=/home/$USER/.local/share/dotfiles

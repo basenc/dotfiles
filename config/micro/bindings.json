@@ -1,4 +1,6 @@
 {
     "Alt-/": "lua:comment.comment",
+    "Ctrl-t": "command-edit:textfilter ",
+    "Ctrl-r": "command:reopen",
     "CtrlUnderscore": "lua:comment.comment"
 }

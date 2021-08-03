@@ -1,42 +1,44 @@
 {
-  "colors": {
-    "dark": {
-      "base": "242424",
-      "alt": "343434",
-      "text": "DFDFDF",
-      "text_alt": "818181"
+  "profiles": {
+    "materia_dark": {
+      "colors": {
+        "alt": "0d0d0d",
+        "base": "1e1e1e",
+        "text": "dfdfdf",
+        "text_alt": "818181",
+        "transparency": 0.8
+      },
+      "fonts": {
+        "mono": "SF Mono 14",
+        "sans": "SF Pro 14",
+        "serif": "New York 14"
+      },
+      "icons": "Papirus-Dark",
+      "themes": {
+        "gtk": "Materia-dark",
+        "kvantum": "MateriaDark"
+      }
     },
-    "light": {
-      "base": "FFFFFF",
-      "alt": "C8C8C8",
-      "text": "444444",
-      "text_alt": "8B8B8B"
+    "materia_light": {
+      "colors": {
+        "alt": 13158600,
+        "base": 16777215,
+        "text": 4473924,
+        "text_alt": 9145227,
+        "transparency": 208
+      },
+      "fonts": {
+        "mono": "SF Mono 14",
+        "sans": "SF Pro 14",
+        "serif": null
+      },
+      "icons": "Papirus-Light",
+      "themes": {
+        "gtk": "Materia-light",
+        "kvantum": "MateriaLight"
+      }
     },
-    "transparency": {
-      "hex": "D0",
-      "int": "208",
-      "float": "0.81"
-    }
+    "current": "ChromeOS_dark"
   },
-  "theme": {
-    "gtk": {
-      "dark": "Materia-dark",
-      "light": "Materia-light"
-    },
-    "kvantum": {
-      "dark": "MateriaDark",
-      "light": "MateriaLight"
-    }
-  },
-  "icons": {
-    "dark": "Papirus-Dark",
-    "light": "Papirus-Light"
-  },
-  "wallpaper": "/home/curly/media/pictures/wallpapers/wallhaven-4x26lv.jpg",
-  "mode": "dark",
-  "font": {
-    "sans": "",
-    "serif": "",
-    "mono": ""
-  }
+  "wallpaper": "/home/curly/media/pictures/wallpapers/wallhaven-01wlm3.jpg"
 }

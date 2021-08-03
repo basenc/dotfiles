@@ -1,46 +1,82 @@
-#!/usr/bin/env fish
+#!/usr/bin/env python
 
-function wallheaven
-  set link (curl -G -s \
-    (string join '' "https://wallhaven.cc/api/v1/search?" \
-      "q=+nature+landscape&" \
-      "categories=100&" \
-      "purity=100&" \
-      "resolutions=1920x1080&" \
-      "sorting=random") \
-    | jq -r '.data[0].path')
+from requests import get, adapters, exceptions
+from sys import exit, argv
+from pathlib import Path
+from random import choice
+from yaml import safe_load as yaml_load
+from argparse import ArgumentParser
+from plumbum import FG, colors
+from plumbum.cmd import xdg_user_dir, xwallpaper
 
-  set file (basename $link)
-  curl -s $link -o (xdg-user-dir PICTURES)/wallpapers/$file
-  set -g wp (xdg-user-dir PICTURES)/wallpapers/$file
 
-  echo $link
-  echo Saved as: $wp
-end
+def download_file(path, url):
+    filename = url.split('/')[-1]
+    downloaded_path = path.joinpath(path, filename)
+    print(colors.info | 'Saving to:', downloaded_path)
 
-mkdir -p (xdg-user-dir PICTURES)/wallpapers
+    download_stream = get(url, stream=True)
+    with open(downloaded_path, 'wb') as img:
+        img.write(download_stream.content)
 
-if [ -z $argv ]
-  echo "Wallpaper not provided, downloading a random one..."
-  if ping -c 1 1.1.1.1 &> /dev/null
-    wallheaven
-  else if [ ! -z (xdg-user-dir PICTURES)/wallpapers ]
-    set wp (find (xdg-user-dir PICTURES)/wallpapers -type f | sort -R | head -n1)
-  end
-else if [ -e $argv ]; and string match -r '\.jpg|\.png' -- $argv &> /dev/null
-  set wp $argv
-else
-  echo 'Not a .jpg or .png file!'
-  exit 1
-end
+    return downloaded_path
 
-set size (xdpyinfo | awk '/dimensions:/ { print $2; exit }')
-if [ (identify -format '%w' $wp) -le '512' ]
-	xwallpaper --tile $wp
-else
-  convert -resize $size $wp /tmp/wallpaper
-	xwallpaper --zoom /tmp/wallpaper
-end
 
-jq --arg wp $wp '.wallpaper |= $wp' $DOTFILES/config.json | \
-xsel -s && xsel -s -o > $DOTFILES/config.json
+def wallheaven_download_random(path):
+    API_URL = 'https://wallhaven.cc/api/v1/search?'
+    PARAMS = {
+        'q': '+nature+landscape',
+        'categories': '100',
+        'purity': '100',
+        'atleast': '2560x1440',
+        'sorting': 'random'
+    }
+
+    try:
+        r = get(API_URL, params=PARAMS)
+        r.raise_for_status()
+    except exceptions.ConnectionError or exceptions.HTTPError:
+        return pick_random_existing(path)
+
+    data = yaml_load(r.text)
+    url = data['data'][0]['path']
+    print(colors.info | 'Got image url:', url)
+
+    return download_file(path, url)
+
+
+def set_wallpaper(path):
+    if path.is_file() and path.suffix in ['.jpg', '.png']:
+        xwallpaper["--zoom", path] & FG
+    else:
+        print(colors.fatal | 'Wrong file format or it does not exist!')
+        exit(1)
+
+
+def pick_random_existing(path):
+    print(colors.warn | 'Could not connect to wallheaven.cc!')
+    print(colors.info | 'Trying to load random downloaded image: ', end='')
+
+    wallpaper = choice(list(path.glob('*.[jp][pn][g]')))
+    if wallpaper:
+        print(wallpaper)
+        return wallpaper
+    else:
+        print(path, colors.fatal | 'is empty!')
+        exit(1)
+
+
+parser = ArgumentParser(description='Simple xwallpaper wrapper. \
+    Downloads a random image from wallheaven.cc and sets it as a \
+    desktop background if none arguments provided.')
+parser.add_argument('path', metavar='PATH', type=Path, nargs='?',
+                    help='A path to existing wallpaper.')
+args = parser.parse_args()
+
+default_path = Path(xdg_user_dir('PICTURES').rstrip()).joinpath('wallpapers')
+
+if len(argv) > 1:
+    set_wallpaper(args.path)
+else:
+    file = wallheaven_download_random(default_path)
+    set_wallpaper(file)

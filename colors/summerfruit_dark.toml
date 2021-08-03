@@ -1,0 +1,80 @@
+colors_hex_base = "1e1e1e"
+colors_hex_alt = "0d0d0d"
+colors_hex_text = "dfdfdf"
+colors_hex_text_alt = "818181"
+colors_hex_alpha = "D0"
+colors_hex_background = "242424"
+colors_hex_background_alt = "343434"
+
+colors_float_alpha = "0.81"
+colors_float_alpha_fuck_dunst = "19"
+
+fonts_mono = "SF Mono"
+fonts_sans = "SF Pro Rounded"
+fonts_serif = "New York"
+fonts_size = "14"
+fonts_size_gtk = "14"
+fonts_size_bar = "16"
+fonts_size_terminal = "14"
+
+icons = "Papirus-Dark"
+theme_gtk = "Materia-dark"
+theme_kvantum = "MateriaDark"
+
+terminal_background = '242424'
+terminal_foreground = 'DFDFDF'
+terminal_text = 'DFDFDF'
+terminal_cursor = '818181'
+
+terminal_normal_black = '151515'
+terminal_normal_red = 'ff0086'
+terminal_normal_green = '00c918'
+terminal_normal_yellow = 'aba800'
+terminal_normal_blue = '3777e6'
+terminal_normal_magenta = 'ad00a1'
+terminal_normal_cyan = '1faaaa'
+terminal_normal_white = 'd0d0d0'
+terminal_bright_black = '505050'
+terminal_bright_red = 'ff0086'
+terminal_bright_green = '00c918'
+terminal_bright_yellow = 'aba800'
+terminal_bright_blue = '3777e6'
+terminal_bright_magenta = 'ad00a1'
+terminal_bright_cyan = '1faaaa'
+terminal_bright_white = 'ffffff'
+terminal_indexed_16 = 'fd8900'
+terminal_indexed_17 = 'cc6633'
+terminal_indexed_18 = '202020'
+terminal_indexed_19 = '303030'
+terminal_indexed_20 = 'b0b0b0'
+terminal_indexed_21 = 'e0e0e0'
+
+# icons =
+# themes = {
+# gtk =
+# kvantum = "
+# }
+# }"
+# materia_light = "{
+# colors = "{
+# alt = "13158600"
+# base = "16777215"
+# text = "4473924"
+# text_alt = "9145227"
+# transparency = "208
+# }"
+# fonts = "{
+# mono = "SF Mono 14"
+# sans = "SF Pro 14"
+# serif = "null
+# }"
+# icons = "Papirus-Light"
+# themes = "{
+# gtk = "Materia-light"
+# kvantum = "MateriaLight
+# }
+# }"
+# current = "ChromeOS_dark
+# }"
+# wallpaper = "/home/curly/media/pictures/wallpapers/wallhaven-01wlm3.jpg
+# }

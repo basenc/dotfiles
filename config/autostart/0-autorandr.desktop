@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=autorandr horizontal
+Name=autorandr
+Type=Application

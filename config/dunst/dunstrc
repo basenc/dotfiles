@@ -1,36 +1,36 @@
 [base16_low]
 	msg_urgency = low
-	foreground = "#DFDFDF"
-	background = "#242424"
+	foreground = "#__[colors_hex_text]__"
+	background = "#__[colors_hex_background]__"
 
 [base16_normal]
 	msg_urgency = normal
-	foreground = "#DFDFDF"
-	background = "#242424"
+	foreground = "#__[colors_hex_text]__"
+	background = "#__[colors_hex_background]__"
 
 [base16_critical]
 	msg_urgency = critical
-	foreground = "#DFDFDF"
-	background = "#242424"
+	foreground = "#__[colors_hex_text]__"
+	background = "#__[colors_hex_background]__"
+	frame_color = "#__[terminal_normal_yellow]__"
 
 [global]
-	frame_color = "#343434"
+	frame_color = "#__[colors_hex_background_alt]__"
 
 #------------------------------------------------#
 
 	geometry = "420x10-15+45"
 
-  transparency = 19
+  transparency = __[colors_float_alpha_fuck_dunst]__
 
 	separator_height = 5
 	padding = 10
 	horizontal_padding = 10
 
 	frame_width = 5
-	frame_color = "#343434"
 	separator_color = frame
 
-	font = SF Pro Regular 14
+	font = __[fonts_sans]__ __[fonts_size]__
 
 	markup = full
 	format = "<b>%s</b>\n%b"

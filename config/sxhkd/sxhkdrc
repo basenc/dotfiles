@@ -20,11 +20,103 @@ super + Return
 	i3-sensible-terminal
 super + l
 	lockscreen
+
 Print
 	import /tmp/scr.png && xclip -selection clipboard -t image/png /tmp/scr.png
 shift + Print
 	import -window root /tmp/scr.png && xclip -selection clipboard -t image/png /tmp/scr.png
 ctrl + Print
 	import -window (xdotool getactivewindow) /tmp/scr.png && xclip -selection clipboard -t image/png /tmp/scr.png
+
 super + k
 	xkill
+
+######### I3 Settings #########
+
+super + shift + q
+  i3 kill
+
+super + t
+  i3 layout tabbed;
+super + shift + t
+  i3 layout default;
+
+super + v
+  i3 split toggle
+
+super + a
+  i3 focus left
+super + d
+  i3 focus right
+super + w
+  i3 focus up
+super + s
+  i3 focus down
+super + shift + a
+  i3 move left
+super + shift + s
+  i3 move down
+super + shift + w
+  i3 move up
+super + shift + d
+  i3 move right
+
+super + f
+  i3 fullscreen
+
+super + shift + space
+  i3 floating toggle
+
+super + 1
+	i3 workspace 1
+super + 2
+	i3 workspace 2
+super + 3
+	i3 workspace 3
+super + 4
+	i3 workspace 4
+super + 5
+	i3 workspace 5
+super + 6
+	i3 workspace 6
+super + 7
+	i3 workspace 7
+super + 8
+	i3 workspace 8
+super + 9
+	i3 workspace 9
+super + 0
+	i3 workspace 0
+
+super + shift + 1
+	i3 move container to workspace number 1
+super + shift + 2
+	i3 move container to workspace number 2
+super + shift + 3
+	i3 move container to workspace number 3
+super + shift + 4
+	i3 move container to workspace number 4
+super + shift + 5
+	i3 move container to workspace number 5
+super + shift + 6
+	i3 move container to workspace number 6
+super + shift + 7
+	i3 move container to workspace number 7
+super + shift + 8
+	i3 move container to workspace number 8
+super + shift + 9
+	i3 move container to workspace number 9
+super + shift + 10
+	i3 move container to workspace number 0
+
+alt + shift + a
+  i3 resize shrink width 10
+alt + shift + s
+  i3 resize grow width 10
+alt + shift + w
+  i3 resize shrink height 10
+alt + shift + d
+  i3 resize grow width 10
+
+super + shift + r
+  i3 reload && i3 restart

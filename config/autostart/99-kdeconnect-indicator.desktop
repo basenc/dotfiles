@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=/usr/bin/kdeconnect-indicator
+Name=kdeconnect-indicator
+Type=Application

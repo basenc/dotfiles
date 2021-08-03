@@ -1,0 +1,6 @@
+profile:
+  current: light
+  dark:
+    foo: bar
+  light:
+    bar: foo

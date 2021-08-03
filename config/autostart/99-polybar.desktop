@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=fish -c "sleep 3 && $DOTFILES/bin/polybar-multimonitor"
+Name=polybar
+Type=Application

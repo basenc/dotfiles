@@ -1,16 +1,18 @@
 #!/bin/sh
-
 export XDG_SESSION_TYPE=x11
 export GDK_BACKEND=x11
 export QT_QPA_PLATFORMTHEME=qt5ct
 export XDG_CURRENT_DESKTOP=Gnome
-
+# export GTK_USE_PORTAL=1
 export XDG_DATA_DIRS="/usr/local/share:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
 
 gsettings set org.gnome.desktop.interface text-scaling-factor 1.25
 printf '*dpi: 121' | xrdb -merge
 xrandr --dpi 121
 
+# annoying
 xmodmap -e "keycode 118 ="
+
+eval $(ssh-agent)
 
 dex -a

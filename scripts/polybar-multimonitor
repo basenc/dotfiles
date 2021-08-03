@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+
+if pidof -q polybar
+    killall -q polybar
+end
+
+for m in (polybar --list-all-monitors | cut -d":" -f1)
+    env MONITOR=$m polybar top &> /dev/null &
+end

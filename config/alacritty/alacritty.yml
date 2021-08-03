@@ -1,38 +1,38 @@
 colors:
   primary:
-    background: '0x242424'
-    foreground: '0xDFDFDF'
+    background: '0x__[terminal_background]__'
+    foreground: '0x__[terminal_foreground]__'
   cursor:
-    text: '0xDFDFDF'
-    cursor: '0x818181'
+    text: '0x__[terminal_text]__'
+    cursor: '0x__[terminal_cursor]__'
   normal:
-    black: '0x151515'
-    red: '0xff0086'
-    green: '0x00c918'
-    yellow: '0xaba800'
-    blue: '0x3777e6'
-    magenta: '0xad00a1'
-    cyan: '0x1faaaa'
-    white: '0xd0d0d0'
+    black: '0x__[terminal_normal_black]__'
+    red: '0x__[terminal_normal_red]__'
+    green: '0x__[terminal_normal_green]__'
+    yellow: '0x__[terminal_normal_yellow]__'
+    blue: '0x__[terminal_normal_blue]__'
+    magenta: '0x__[terminal_normal_magenta]__'
+    cyan: '0x__[terminal_normal_cyan]__'
+    white: '0x__[terminal_normal_white]__'
   bright:
-    black: '0x505050'
-    red: '0xff0086'
-    green: '0x00c918'
-    yellow: '0xaba800'
-    blue: '0x3777e6'
-    magenta: '0xad00a1'
-    cyan: '0x1faaaa'
-    white: '0xffffff'
+    black: '0x__[terminal_bright_black]__'
+    red: '0x__[terminal_bright_red]__'
+    green: '0x__[terminal_bright_green]__'
+    yellow: '0x__[terminal_bright_yellow]__'
+    blue: '0x__[terminal_bright_blue]__'
+    magenta: '0x__[terminal_bright_magenta]__'
+    cyan: '0x__[terminal_bright_cyan]__'
+    white: '0x__[terminal_bright_white]__'
   indexed_colors:
-    - {index: 16, color: '0xfd8900'}
-    - {index: 17, color: '0xcc6633'}
-    - {index: 18, color: '0x202020'}
-    - {index: 19, color: '0x303030'}
-    - {index: 20, color: '0xb0b0b0'}
-    - {index: 21, color: '0xe0e0e0'}
-background_opacity: 0.81
+    - {index: 16, color: '0x__[terminal_indexed_16]__'}
+    - {index: 17, color: '0x__[terminal_indexed_17]__'}
+    - {index: 18, color: '0x__[terminal_indexed_18]__'}
+    - {index: 19, color: '0x__[terminal_indexed_19]__'}
+    - {index: 20, color: '0x__[terminal_indexed_20]__'}
+    - {index: 21, color: '0x__[terminal_indexed_21]__'}
+background_opacity: __[colors_float_alpha]__
 env:
-  TERM: xterm-256color
+  TERM: __[term]__
 window:
   padding:
     x: 10
@@ -41,8 +41,8 @@ window:
   dynamic_title: true
 font:
   normal:
-    family: SF Mono
-  size: 14
+    family: __[fonts_mono]__
+  size: __[fonts_size_terminal]__
 cursor:
   unfocused_hollow: true
 live_config_reload: true

@@ -10,11 +10,9 @@
     "savecursor": true,
     "saveundo": true,
     "scrollspeed": 1,
-    "softwrap": true,
     "statusformatl": "$(filename) | ft:$(opt:filetype) ",
     "statusformatr": "$(line):$(col)",
     "tabmovement": true,
     "tabsize": 2,
-    "tabstospaces": true,
-    "xterm": true
+    "tabstospaces": true
 }
