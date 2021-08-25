@@ -15,7 +15,7 @@ fonts_serif = "New York"
 fonts_size = "14"
 fonts_size_gtk = "14"
 fonts_size_bar = "16"
-fonts_size_terminal = "14"
+fonts_size_terminal = "16"
 
 icons = "Papirus-Dark"
 theme_gtk = "Materia-dark"

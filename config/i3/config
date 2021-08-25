@@ -1,18 +1,21 @@
 # I3 Config File (v4)
 
-client.focused #__[colors_hex_background_alt]__FF #__[colors_hex_background_alt]__FF #__[colors_hex_text]__FF #__[colors_hex_text]__FF #__[colors_hex_text]__FF
-client.focused_inactive #__[colors_hex_background_alt]____[colors_hex_alpha]__ #__[colors_hex_background_alt]____[colors_hex_alpha]__ #__[colors_hex_text]__FF #__[colors_hex_background]____[colors_hex_alpha]__ #__[colors_hex_background]____[colors_hex_alpha]__
-client.unfocused #__[colors_hex_background]____[colors_hex_alpha]__ #__[colors_hex_background]____[colors_hex_alpha]__ #__[colors_hex_text]____[colors_hex_alpha]__ #__[colors_hex_background_alt]____[colors_hex_alpha]__ #__[colors_hex_background_alt]____[colors_hex_alpha]__
+client.focused #__[colors_hex_background]__FF #__[colors_hex_background]__FF #__[colors_hex_text]__FF #__[colors_hex_text]__FF #__[colors_hex_text]__FF
+client.focused_inactive #__[colors_hex_background]__FF #__[colors_hex_background]__FF #__[colors_hex_background_alt]__FF #__[colors_hex_background_alt]__FF #__[colors_hex_background_alt]__FF
+client.unfocused #__[colors_hex_background_alt]____[colors_hex_alpha]__ #__[colors_hex_background_alt]____[colors_hex_alpha]__ #__[colors_hex_text]____[colors_hex_alpha]__ #__[colors_hex_background_alt]____[colors_hex_alpha]__ #__[colors_hex_background_alt]____[colors_hex_alpha]__
 
 #------------------------------------------------#
 
 # Settings #
 gaps inner 10
 default_border none
+default_floating_border pixel 4
 title_align center
 default_floating_border pixel 5
 font pango:__[fonts_sans]__ __[fonts_size]__
 floating_maximum_size 1366x768
 workspace_layout tabbed
+floating_modifier Mod4
+for_window [floating] move position center
 
 bindsym Mod4+Escape exec pkill -SIGUSR1 sxhkd

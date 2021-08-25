@@ -2,25 +2,29 @@ dotfiles_dir = ".local/share/dotfiles"
 
 [settings]
   vars = [ "vars.toml" ]
+  hooks = [ "xdg-user-dirs-update --force" ]
 [settings.dots]
-  alacritty = { source = "config/alacritty", target = ".config/alacritty" }
-  autostart = { source = "config/autostart", target = ".config/autostart" }
-  dunst = { source = "config/dunst", target = ".config/dunst" }
   fish = { source = "config/fish", target = ".config/fish" }
-  gtk = { source = "config/gtk-3.0", target = ".config/gtk-3.0" }
   htop = { source = "config/htop", target = ".config/htop" }
   micro = { source = "config/micro", target = ".config/micro" }
+  xdg-dirs = { source = "config/user-dirs.dirs", target = ".config/user-dirs.dirs" }
+  xdg-locale = { source = "config/user-dirs.locale", target = ".config/user-dirs.locale" }
+  fonts = { source = "fonts", target = ".local/share/fonts" }
+  ssh = { source = "config/ssh/config", target = ".ssh/config" }
+
+[profiles.i3_summerfruit_dark]
+  vars = [ "colors/summerfruit_dark.toml" ]
+  hooks = [ "i3 reload", "polybar-multimonitor", "autorandr horizontal", "pkill dunst", "pkill picom", "picom --experimental-backends --daemon" ]
+[profiles.i3_summerfruit_dark.dots]
+  i3 = { source = "config/i3", target = ".config/i3" }
+  autostart = { source = "config/autostart", target = ".config/autostart" }
+  alacritty = { source = "config/alacritty", target = ".config/alacritty" }
+  dunst = { source = "config/dunst", target = ".config/dunst" }
   picom = { source = "config/picom", target = ".config/picom" }
   polybar = { source = "config/polybar", target = ".config/polybar" }
   qt5ct = { source = "config/qt5ct", target = ".config/qt5ct" }
   rofi = { source = "config/rofi", target = ".config/rofi" }
   sxhkd = { source = "config/sxhkd", target = ".config/sxhkd" }
-  xdg-dirs = { source = "config/user-dirs.dirs", target = ".config/user-dirs.dirs" }
-  xdg-locale = { source = "config/user-dirs.locale", target = ".config/user-dirs.locale" }
-  fonts = { source = "fonts", target = ".local/share/fonts" }
-
-[profiles.i3_summerfruit_dark]
-  vars = [ "colors/summerfruit_dark.toml" ]
-  hooks = [ "i3 reload", "polybar-multimonitor", "autorandr horizontal", "pkill dunst" ]
-[profiles.i3_summerfruit_dark.dots]
-  i3 = { source = "config/i3", target = ".config/i3" }
+  gtk = { source = "config/gtk-3.0", target = ".config/gtk-3.0" }
+  xinit = { source = "X/dot-xinitrc", target = ".xinitrc" }
+  xprofile = { source = "X/dot-xprofile", target = ".xprofile" }
